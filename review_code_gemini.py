@@ -133,28 +133,30 @@ def analyze_code(parsed_diff: List[Dict[str, Any]], pr_details: PRDetails) -> Li
 
 def create_prompt(file: PatchedFile, hunk: Hunk, pr_details: PRDetails) -> str:
     """Creates the prompt for the Gemini model."""
-    return f"""Your task is reviewing pull requests. Instructions:
-    - Provide the response in following JSON format:  {{"reviews": [{{"lineNumber":  <line_number>, "reviewComment": "<review comment>"}}]}}
+    return f"""Your task is reviewing pull requests and generating unit test cases. Instructions:
+    - Provide the response in following JSON format for code review:  {{"reviews": [{{"lineNumber":  <line_number>, "reviewComment": "<review comment>"}}]}}
+    - Provide the response in following JSON format for test cases: {{"Scenario Name": <scenario-name>, "Description": <description>, "Step Description": <step-description>, "Expected Result": <expected-result>, "Line Number": <line-number>}}
     - Provide comments and suggestions ONLY if there is something to improve, otherwise "reviews" should be an empty array.
     - Use GitHub Markdown in comments
     - Focus on bugs, security issues, and performance problems
     - IMPORTANT: NEVER suggest adding comments to the code
+    - There can be multiple test cases and scenarios along with multple line number.
 
-Review the following code diff in the file "{file.path}" and take the pull request title and description into account when writing the response.
+    Review the following code diff in the file "{file.path}" and take the pull request title and description into account when writing the response.
 
-Pull request title: {pr_details.title}
-Pull request description:
+    Pull request title: {pr_details.title}
+    Pull request description:
 
----
-{pr_details.description or 'No description provided'}
----
+    ---
+    {pr_details.description or 'No description provided'}
+    ---
 
-Git diff to review:
+    Git diff to review:
 
-```diff
-{hunk.content}
-```
-"""
+    ```diff
+    {hunk.content}
+    ```
+    """
 
 def get_ai_response(prompt: str) -> List[Dict[str, str]]:
     """Sends the prompt to Gemini API and retrieves the response."""
