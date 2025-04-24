@@ -216,8 +216,9 @@ def create_comment(file: FileInfo, hunk: Hunk, ai_responses: List[Dict[str, str]
                 print(f"Warning: Line number {line_number} is outside hunk range")
                 continue
 
+            test_case_json = json.dumps(ai_response, indent=2)
             comment = {
-                "body": str(ai_response),
+                "body": f"```json\n{test_case_json}\n```",
                 "path": file.path,
                 "position": line_number
             }
