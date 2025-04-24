@@ -220,7 +220,8 @@ def create_comment(file: FileInfo, hunk: Hunk, ai_responses: List[Dict[str, str]
 
             comment = {
                 "body": ai_response,
-                "path": file.path
+                "path": file.path,
+                "position": line_number
             }
             print(f"Created comment: {json.dumps(comment, indent=2)}")
             comments.append(comment)
