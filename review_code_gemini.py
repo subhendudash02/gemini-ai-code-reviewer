@@ -208,7 +208,7 @@ def create_comment(file: FileInfo, hunk: Hunk, ai_responses: List[Dict[str, str]
     print(f"Hunk content:\n{hunk.content}")
 
     comments = []
-    for ai_response in ai_responses:
+    for ai_response in ai_responses["test_cases"]:
         try:
             line_number = int(ai_response["lineNumber"])
             print(f"Original AI suggested line: {line_number}")
@@ -219,9 +219,8 @@ def create_comment(file: FileInfo, hunk: Hunk, ai_responses: List[Dict[str, str]
                 continue
 
             comment = {
-                "body": ai_response["reviewComment"],
-                "path": file.path,
-                "position": line_number
+                "body": ai_response,
+                "path": file.path
             }
             print(f"Created comment: {json.dumps(comment, indent=2)}")
             comments.append(comment)
