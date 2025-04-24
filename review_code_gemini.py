@@ -187,19 +187,7 @@ def get_ai_response(prompt: str) -> List[Dict[str, str]]:
             data = json.loads(response_text)
             print(f"Parsed JSON data: {data}")
 
-            if "reviews" in data and isinstance(data["reviews"], list):
-                reviews = data["reviews"]
-                valid_reviews = []
-                for review in reviews:
-                    if "lineNumber" in review and "reviewComment" in review:
-                        valid_reviews.append(review)
-                    else:
-                        print(f"Invalid review format: {review}")
-                return valid_reviews
-            else:
-                print("Error: Response doesn't contain valid 'reviews' array")
-                print(f"Response content: {data}")
-                return []
+            return data
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON response: {e}")
             print(f"Raw response: {response_text}")
