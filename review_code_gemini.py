@@ -217,7 +217,7 @@ def create_comment(file: FileInfo, hunk: Hunk, ai_responses: List[Dict[str, str]
                 continue
 
             comment = {
-                "body": ai_response,
+                "body": str(ai_response),
                 "path": file.path,
                 "position": line_number
             }
