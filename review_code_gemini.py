@@ -133,10 +133,8 @@ def analyze_code(parsed_diff: List[Dict[str, Any]], pr_details: PRDetails) -> Li
 
 def create_prompt(file: PatchedFile, hunk: Hunk, pr_details: PRDetails) -> str:
     """Creates the prompt for the Gemini model."""
-    return f"""Your task is reviewing pull requests and generating unit test cases. Instructions:
-    - Provide the response in following JSON format for code review:  {{"reviews": [{{"lineNumber":  <line_number>, "reviewComment": "<review comment>"}}]}}
-    - Provide the response in following JSON format for test cases: {{"Scenario Name": <scenario-name>, "Description": <description>, "Step Description": <step-description>, "Expected Result": <expected-result>, "Line Number": <line-number>}}
-    - Provide comments and suggestions ONLY if there is something to improve, otherwise "reviews" should be an empty array.
+    return f"""Your task is generating unit test cases. Instructions:
+    - Provide the response in following JSON format for test cases (use 'test_cases' key name): {{"Scenario Name": <scenario-name>, "Description": <description>, "Step Description": <step-description>, "Expected Result": <expected-result>, "Line Number": <line-number>}}
     - Use GitHub Markdown in comments
     - Focus on bugs, security issues, and performance problems
     - IMPORTANT: NEVER suggest adding comments to the code
