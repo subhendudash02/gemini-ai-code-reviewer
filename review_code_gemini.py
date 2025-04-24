@@ -246,7 +246,7 @@ def create_review_comment(
         # Create the review with only the required fields
         review = pr.create_review(
             body="Gemini AI Code Reviewer Comments",
-            comments=comments,
+            comments=str(comments),
             event="COMMENT"
         )
         print(f"Review created successfully with ID: {review.id}")
